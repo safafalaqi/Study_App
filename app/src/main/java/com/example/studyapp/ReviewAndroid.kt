@@ -16,9 +16,15 @@ class ReviewAndroid : AppCompatActivity() {
         setContentView(R.layout.activity_study_android)
         setTitle("Android Review")
         myRv = findViewById<RecyclerView>(R.id.rvAndroid)
+        val alert=AlertDialog(this)
+        var topic= getResources().getStringArray(R.array.android_topic)
 
-        myRv.adapter = RecyclerViewAdapter(topic,pref,detail)
+        var detail= getResources().getStringArray(R.array.android_detail)
+        myRv.adapter = RecyclerViewAdapter(topic,detail,this)
         myRv.layoutManager = LinearLayoutManager(this)
+        myRv.setOnClickListener{
+
+        }
         
     }
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

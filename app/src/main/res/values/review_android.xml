@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+    <string-array name="android_topic">
+        <item>UI Elements</item>
+        <item>Instantiating UI elements</item>
+        <item>OnClickListener</item>
+        <item>Snackbar</item>
+        <item>Recycler View</item>
+        <item>Alert Dialogs</item>
+        <item>Saving/Restoring Instance States</item>
+        <item>Basic Control Flow (Recreate Activity)</item>
+
+
+    </string-array>
+
+    <string-array name="android_detail">
+
+        <item>TextView, EditText ,Button and different layout all are found in android studio under palette.</item>
+        <item>To instantiate Ui element we findViewById </item>
+        <item>To make the button function when pressed we use OnClicListener.</item>
+        <item>Used to display alerts in the application</item>
+        <item>Recycler Views are used to display  lists of items to the user. It allows us to display as many items as we want as recycled items and all can fit in one screen.</item>
+        <item>Alert Dialogs has more flexibility in allowing users to use buttons and get user input in the alerts.</item>
+        <item>When screen rotation is enabled , it losses data whenever screen is rotated and we need to handle all the instances to avoid data loss </item>
+        <item>To recreate the main activity we use this.recreate()</item>
+         </string-array>
+
+</resources>

@@ -5,7 +5,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.a2in1app.RecyclerViewAdapter
 
 class ReviewKotlin : AppCompatActivity() {
     private lateinit var myRv: RecyclerView
@@ -14,8 +16,12 @@ class ReviewKotlin : AppCompatActivity() {
         setContentView(R.layout.activity_study_kotlin)
         setTitle("Kotlin Review")
         myRv = findViewById<RecyclerView>(R.id.rvKotlin)
+        val alert=AlertDialog(this)
+        var topic= getResources().getStringArray(R.array.kotlin_topic)
 
-
+        var detail= getResources().getStringArray(R.array.kotlin_detail)
+        myRv.adapter = RecyclerViewAdapter(topic,detail,this)
+        myRv.layoutManager = LinearLayoutManager(this)
 
 
     }

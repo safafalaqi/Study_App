@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+ <string-array name="kotlin_topic">
+  <item>val and var</item>
+  <item>User Input</item>
+  <item>Data Types</item>
+  <item>String Concatenation Vs Interpolation</item>
+  <item>Basic Operations</item>
+  <item>When</item>
+  <item>If statement</item>
+  <item>Try/Catch</item>
+  <item>For Loop</item>
+  <item>Random module</item>
+  <item>While Loop</item>
+  <item>Functions</item>
+  <item>Arguments/Parameters </item>
+
+ </string-array>
+
+
+ <string-array name="kotlin_detail">
+
+  <item>Val is used for immutable variable
+        Var is used for mutable variable
+  </item>
+  <item>In kotlin readLine is used to get
+    user input
+    val name = readLine()</item>
+  <item>The basic types used in kotlin : number , booleans ,characters , string, and arrays.</item>
+  <item>In kotlin + sign is used to combine two strings and String interpolation allows to inject string variable into a string print("$greeting Amal and $name")</item>
+  <item>Kotlin does all the basic operations</item>
+  <item>Is used to execute multiple conditional statements</item>
+  <item>If is used to execute a conditional statement </item>
+  <item>Is used for error handling in kotlin </item>
+  <item>For loop is used to iterate through anything that provides an iterator</item>
+  <item>To create a random number, kotlin offer a Random class in the kotlin.random package</item>
+  <item>Works like for loop but we have to declare an iterator outside the loop</item>
+  <item>In kotlin function is declared using the key word fun</item>
+  <item>Arguments are passed to the function when it is invoked in the main function</item>
+
+ </string-array>
+
+
+
+</resources>
