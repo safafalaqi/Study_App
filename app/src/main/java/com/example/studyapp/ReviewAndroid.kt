@@ -11,20 +11,20 @@ import com.example.a2in1app.RecyclerViewAdapter
 
 class ReviewAndroid : AppCompatActivity() {
     private lateinit var myRv: RecyclerView
+    private lateinit var rvAdapter: RecyclerViewAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_study_android)
-        setTitle("Android Review")
-        myRv = findViewById<RecyclerView>(R.id.rvAndroid)
-        val alert=AlertDialog(this)
-        var topic= getResources().getStringArray(R.array.android_topic)
+        title = "Android Review"
+        myRv = findViewById(R.id.rvAndroid)
 
-        var detail= getResources().getStringArray(R.array.android_detail)
-        myRv.adapter = RecyclerViewAdapter(topic,detail,this)
+        val topic= resources.getStringArray(R.array.android_topic)
+
+        val detail= resources.getStringArray(R.array.android_detail)
+        rvAdapter=RecyclerViewAdapter(topic,detail,this)
+        myRv.adapter = rvAdapter
         myRv.layoutManager = LinearLayoutManager(this)
-        myRv.setOnClickListener{
 
-        }
         
     }
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

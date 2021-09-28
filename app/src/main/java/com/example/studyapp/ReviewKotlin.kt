@@ -11,16 +11,17 @@ import com.example.a2in1app.RecyclerViewAdapter
 
 class ReviewKotlin : AppCompatActivity() {
     private lateinit var myRv: RecyclerView
+    private lateinit var rvAdapter: RecyclerViewAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_study_kotlin)
-        setTitle("Kotlin Review")
-        myRv = findViewById<RecyclerView>(R.id.rvKotlin)
-        val alert=AlertDialog(this)
-        var topic= getResources().getStringArray(R.array.kotlin_topic)
+        title = "Kotlin Review"
+        myRv = findViewById(R.id.rvKotlin)
+        val topic= resources.getStringArray(R.array.kotlin_topic)
 
-        var detail= getResources().getStringArray(R.array.kotlin_detail)
-        myRv.adapter = RecyclerViewAdapter(topic,detail,this)
+        val detail= resources.getStringArray(R.array.kotlin_detail)
+        rvAdapter=RecyclerViewAdapter(topic,detail,this)
+        myRv.adapter = rvAdapter
         myRv.layoutManager = LinearLayoutManager(this)
 
 
