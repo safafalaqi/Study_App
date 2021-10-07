@@ -7,7 +7,7 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.a2in1app.RecyclerViewAdapter
+import com.example.studyapp.RecyclerViewAdapter
 
 class ReviewKotlin : AppCompatActivity() {
     private lateinit var myRv: RecyclerView
