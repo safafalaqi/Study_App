@@ -1,4 +1,4 @@
-package com.example.a2in1app
+package com.example.studyapp
 
 import android.content.Context
 import android.view.LayoutInflater
