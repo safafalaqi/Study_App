@@ -3,7 +3,7 @@ package com.example.studyapp
 import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
-import com.example.a2in1app.RecyclerViewAdapter
+import com.example.studyapp.RecyclerViewAdapter
 
 class AlertDialog(val context: Context) {
 
