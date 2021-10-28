@@ -13,13 +13,17 @@ import android.widget.Toast
 import androidx.appcompat.widget.AppCompatImageButton
 import androidx.recyclerview.widget.RecyclerView
 import com.example.studyapp.database.Lesson
-import com.example.studyapp.database.StudyAppDB
+import com.example.studyapp.database.LessonDatabase
 import com.example.studyapp.databinding.ItemRowBinding
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 //type key 0= android 1=kotlin
-class RecyclerViewAdapter(private var lessons: ArrayList<Lesson>, val typeKey:Int, val context:Context): RecyclerView.Adapter<RecyclerViewAdapter.ItemViewHolder>() {
+class RecyclerViewAdapter(private var lessons: List<Lesson>, val typeKey:Int, val context:Context): RecyclerView.Adapter<RecyclerViewAdapter.ItemViewHolder>() {
     class ItemViewHolder(val binding: ItemRowBinding): RecyclerView.ViewHolder(binding.root)
-    private val databaseHelper by lazy{ StudyAppDB(context) }
+    private val lessonDao by lazy{ LessonDatabase.getInstance(context).lessonDao() }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         return ItemViewHolder(
             ItemRowBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -71,10 +75,14 @@ class RecyclerViewAdapter(private var lessons: ArrayList<Lesson>, val typeKey:In
 
         btSubmit.setOnClickListener {
             if (etTopic.text.isNotBlank() && etDetail.text.isNotBlank()) {
-                databaseHelper.updateData(lessons[i].pk, etTopic.text.toString(), etDetail.text.toString(),typeKey)
-                lessons=databaseHelper.readData(typeKey)
-                notifyDataSetChanged()
-                dialog.dismiss()
+                CoroutineScope(Dispatchers.IO).launch {
+                    lessons[i].topic=etTopic.text.toString()
+                    lessons[i].detail=etDetail.text.toString()
+                    lessonDao.updateLesson(lessons[i])
+                    lessons = lessonDao.getLessons(typeKey)
+                    withContext(Dispatchers.Main){ notifyDataSetChanged()}
+                    dialog.dismiss()
+                }
             } else {
                 Toast.makeText(context, "Note can not be empty!", Toast.LENGTH_SHORT).show()
                 dialog.dismiss()
@@ -93,9 +101,11 @@ class RecyclerViewAdapter(private var lessons: ArrayList<Lesson>, val typeKey:In
             // negative button text and action
             .setPositiveButton("yes", DialogInterface.OnClickListener {
                     dialog, id ->
-                databaseHelper.deleteData(lesson,typeKey)
-                lessons=databaseHelper.readData(typeKey)
-                notifyDataSetChanged()
+                CoroutineScope(Dispatchers.IO).launch {
+                    lessonDao.deleteLesson(lesson)
+                    lessons = lessonDao.getLessons(typeKey)
+                    withContext(Dispatchers.Main){ notifyDataSetChanged()}
+                }
             })
             .setNegativeButton("Cancel", DialogInterface.OnClickListener {
                     dialog, id -> dialog.cancel()
@@ -107,7 +117,7 @@ class RecyclerViewAdapter(private var lessons: ArrayList<Lesson>, val typeKey:In
         alert.show()
     }
 
-    fun updateRV(lessonsList:ArrayList<Lesson>){
+    fun updateRV(lessonsList:List<Lesson>){
         lessons=lessonsList
         notifyDataSetChanged()
     }

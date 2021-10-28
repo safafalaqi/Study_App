@@ -15,18 +15,21 @@ import android.widget.Toast
 import androidx.appcompat.widget.AppCompatImageButton
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.studyapp.RecyclerViewAdapter
 import com.example.studyapp.database.Lesson
-import com.example.studyapp.database.StudyAppDB
+import com.example.studyapp.database.LessonDatabase
 import com.example.studyapp.databinding.ActivityMainBinding
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class ReviewKotlin : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var myRv: RecyclerView
     private lateinit var rvAdapter: RecyclerViewAdapter
-    var kotlinList=ArrayList<Lesson>()
-    private val databaseHelper by lazy{ StudyAppDB(this) }
+    lateinit var kotlinList:List<Lesson>
+    private val lessonDao by lazy{ LessonDatabase.getInstance(this).lessonDao() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,12 +38,14 @@ class ReviewKotlin : AppCompatActivity() {
         title = "Kotlin Review"
         myRv = findViewById(R.id.rvKotlin)
 
-        kotlinList=databaseHelper.readData(1)
-
-        rvAdapter=RecyclerViewAdapter(kotlinList,1,this)
-        myRv.adapter = rvAdapter
-        myRv.layoutManager = LinearLayoutManager(this)
-
+        CoroutineScope(Dispatchers.IO).launch {
+            kotlinList = lessonDao.getLessons(1)
+            withContext(Dispatchers.Main) {
+                rvAdapter = RecyclerViewAdapter(kotlinList, 1, this@ReviewKotlin)
+                myRv.adapter = rvAdapter
+                myRv.layoutManager = LinearLayoutManager(this@ReviewKotlin)
+            }
+        }
         val fabAndroid=findViewById<FloatingActionButton>(R.id.fbKotlin)
         fabAndroid.setOnClickListener{
             addDialog()
@@ -64,10 +69,21 @@ class ReviewKotlin : AppCompatActivity() {
 
         btSubmit.setOnClickListener{
             if(etTopic.text.isNotBlank() && etDeatil.text.isNotBlank()){
-                databaseHelper.saveData(etTopic.text.toString(),etDeatil.text.toString(),1)
-                kotlinList=databaseHelper.readData(1)
-                rvAdapter.updateRV(kotlinList)
-                dialog.dismiss()
+                CoroutineScope(Dispatchers.IO).launch {
+                    lessonDao.addLesson(
+                        Lesson(
+                            0,
+                            etTopic.text.toString(),
+                            etDeatil.text.toString(),
+                            1
+                        )
+                    )
+                    kotlinList = lessonDao.getLessons(1)
+                    withContext(Dispatchers.Main) {
+                        rvAdapter.updateRV(kotlinList)
+                        dialog.dismiss()
+                    }
+                }
             }else
                 Toast.makeText(this," can not be empty!", Toast.LENGTH_SHORT).show()
 

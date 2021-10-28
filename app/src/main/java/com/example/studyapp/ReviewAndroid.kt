@@ -16,14 +16,18 @@ import androidx.appcompat.widget.AppCompatImageButton
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.studyapp.database.Lesson
-import com.example.studyapp.database.StudyAppDB
+import com.example.studyapp.database.LessonDatabase
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class ReviewAndroid : AppCompatActivity() {
     private lateinit var myRv: RecyclerView
     private lateinit var rvAdapter: RecyclerViewAdapter
-    var androidList=ArrayList<Lesson>()
-    private val databaseHelper by lazy{ StudyAppDB(this) }
+    lateinit var androidList:List<Lesson>
+    private val lessonDao by lazy{ LessonDatabase.getInstance(this).lessonDao() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,12 +35,14 @@ class ReviewAndroid : AppCompatActivity() {
         title = "Android Review"
         myRv = findViewById(R.id.rvAndroid)
 
-        androidList=databaseHelper.readData(0)
-
-        rvAdapter=RecyclerViewAdapter(androidList,0,this)
-        myRv.adapter = rvAdapter
-        myRv.layoutManager = LinearLayoutManager(this)
-
+        CoroutineScope(Dispatchers.IO).launch {
+            androidList = lessonDao.getLessons(0)
+            withContext(Dispatchers.Main) {
+                rvAdapter = RecyclerViewAdapter(androidList, 0, this@ReviewAndroid)
+                myRv.adapter = rvAdapter
+                myRv.layoutManager = LinearLayoutManager(this@ReviewAndroid)
+            }
+        }
         val fabAndroid=findViewById<FloatingActionButton>(R.id.fbAndroid)
         fabAndroid.setOnClickListener{
             addDialog()
@@ -61,10 +67,21 @@ class ReviewAndroid : AppCompatActivity() {
 
         btSubmit.setOnClickListener{
             if(etTopic.text.isNotBlank() && etDeatil.text.isNotBlank()){
-                databaseHelper.saveData(etTopic.text.toString(),etDeatil.text.toString(),0)
-                androidList=databaseHelper.readData(0)
-                rvAdapter.updateRV(androidList)
-                dialog.dismiss()
+                CoroutineScope(Dispatchers.IO).launch {
+                    lessonDao.addLesson(
+                        Lesson(
+                            0,
+                            etTopic.text.toString(),
+                            etDeatil.text.toString(),
+                            0
+                        )
+                    )
+                    androidList = lessonDao.getLessons(0)
+                    withContext(Dispatchers.Main) {
+                        rvAdapter.updateRV(androidList)
+                        dialog.dismiss()
+                    }
+                }
                 }else
                     Toast.makeText(this," can not be empty!", Toast.LENGTH_SHORT).show()
 
