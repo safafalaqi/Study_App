@@ -3,6 +3,14 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Lenovo/AndroidStudioProjects/Study_App/app/src/main/res/drawable/background_bt.xml" value="0.3828125" />
+        <entry key="..\:/Users/Lenovo/AndroidStudioProjects/Study_App/app/src/main/res/drawable/background_et.xml" value="0.3828125" />
+        <entry key="..\:/Users/Lenovo/AndroidStudioProjects/Study_App/app/src/main/res/drawable/close.xml" value="0.3828125" />
+        <entry key="..\:/Users/Lenovo/AndroidStudioProjects/Study_App/app/src/main/res/layout/activity_study_android.xml" value="0.19791666666666666" />
+        <entry key="..\:/Users/Lenovo/AndroidStudioProjects/Study_App/app/src/main/res/layout/activity_study_kotlin.xml" value="0.19791666666666666" />
+        <entry key="..\:/Users/Lenovo/AndroidStudioProjects/Study_App/app/src/main/res/layout/add_dialog.xml" value="0.19791666666666666" />
+        <entry key="..\:/Users/Lenovo/AndroidStudioProjects/Study_App/app/src/main/res/layout/custom_dialog.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Lenovo/AndroidStudioProjects/Study_App/app/src/main/res/layout/item_row.xml" value="0.36666666666666664" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.27395833333333336" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.1962962962962963" />
         <entry key="app/src/main/res/layout/activity_study_android.xml" value="0.1962962962962963" />
